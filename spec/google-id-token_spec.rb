@@ -166,6 +166,15 @@ describe GoogleIDToken::Validator do
           expect(result['cid']).to eq cid
           expect(result['azp']).to eq cid
         end
+
+        context 'when aud is an array' do
+          let(:aud_array) { ['123456789.apps.googleusercontent.com', '987654321.apps.googleusercontent.com'] }
+          it 'it checks aud against an array' do
+            expect {
+                validator.check(token, aud_array, cid)
+              }.not_to raise_error(GoogleIDToken::AudienceMismatchError)
+          end
+        end
       end
     end
   end
